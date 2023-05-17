@@ -20,7 +20,7 @@ pycryptodome==3.17
 pycryptodomex==3.17
 pymp4==1.4.0
 PySocks==1.7.1
-pywidevine==1.6.0
+pywidevine
 requests==2.30.0
 selenium==4.9.1
 six==1.16.0
