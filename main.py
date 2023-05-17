@@ -16,6 +16,7 @@ from unidecode import unidecode
 download_dir = os.path.join(os.getcwd(), "downloads")
 course_id = None
 driver = None
+home_dir = os.getcwd()
 keys = {}
 
 class Selenium:
@@ -138,13 +139,13 @@ def durationtoseconds(period):
         hour = int(period.split("H")[0].split("D")[-1] if "H" in period else 0)
         minute = int(period.split("M")[0].split("H")[-1] if "M" in period else 0)
         second = period.split("S")[0].split("M")[-1]
-        # logger.debug("Total time: " + str(day) + " days " + str(hour) + " hours " +
+        # print("Total time: " + str(day) + " days " + str(hour) + " hours " +
         #       str(minute) + " minutes and " + str(second) + " seconds")
         total_time = float(str((day * 24 * 60 * 60) + (hour * 60 * 60) + (minute * 60) + (int(second.split(".")[0]))) + "." + str(int(second.split(".")[-1])))
         return total_time
 
     else:
-        logger.error("Duration Format Error")
+        print("Duration Format Error")
         return None
 
 
@@ -157,7 +158,7 @@ def cleanup(path):
         try:
             os.remove(file_list)
         except OSError:
-            logger.exception(f"Error deleting file: {file_list}")
+            print(f"Error deleting file: {file_list}")
     os.removedirs(path)
 
 
@@ -424,6 +425,7 @@ def _extract_audio(asset, lecture_counter):
             _temp.append({"type": "audio", "filename": "{0:03d} ".format(lecture_counter) + filename, "extension": extension, "download_url": download_url, "id": id})
         return _temp
 def handle_segments(url, format_id, video_title, output_path, lecture_file_name, chapter_dir, localmpd):
+    global home_dir
     os.chdir(os.path.join(chapter_dir))
     file_name = lecture_file_name.replace("%", "")
     
@@ -539,7 +541,7 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
     print("> Lecture Tracks Downloaded")
 
     if ret_code != 0:
-        logger.warning("Return code from the downloader was non-0 (error), skipping!")
+        print("Return code from the downloader was non-0 (error), skipping!")
         return
 
     try:
@@ -582,7 +584,7 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
     except Exception:
         print(f"Error: ")
     finally:
-        os.chdir(os.getcwd())
+        os.chdir(home_dir)
 
 def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, course_name):
     lecture_title = lecture.get("lecture_title")
