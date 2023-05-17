@@ -11,6 +11,7 @@ from typing import IO
 import subprocess
 import time
 from utils import extract_kid
+import unidecode
 
 download_dir = os.path.join(os.getcwd(), "downloads")
 course_id = None
