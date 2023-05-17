@@ -47,6 +47,7 @@ def decrypt(kid, in_filepath, out_filepath):
     ret_code = process.wait()
     if ret_code != 0:
         raise Exception("Decryption returned a non-zero exit code")
+        exit()
 
     return ret_code
 
@@ -193,6 +194,7 @@ def mux_process(video_title, video_filepath, audio_filepath, output_path):
     ret_code = process.wait()
     if ret_code != 0:
         raise Exception("Muxing returned a non-zero exit code")
+        exit()
 
     return ret_code
 def _extract_m3u8( url, title):
@@ -716,6 +718,7 @@ def download_aria(url, file_dir, filename):
     ret_code = process.wait()
     if ret_code != 0:
         raise Exception("Return code from the downloader was non-0 (error)")
+        exit()
     return ret_code
 
 def parse_new(_udemy):
