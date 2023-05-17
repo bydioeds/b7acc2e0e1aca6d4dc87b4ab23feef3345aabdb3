@@ -600,7 +600,7 @@ def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, cours
                 source = min(lecture_sources, key=lambda x: abs(int(x.get("height")) - quality))
             print(f"      > Lecture '%s' has DRM, attempting to download" % lecture_title)
             localmpd = "file://" + os.getcwd() + "/downloads/streams/" + course_name + " - " + lecture_title+".mpd"
-            handle_segments(source.get("download_url"), source.get("format_id"), lecture_title, lecture_path, lecture_file_name, chapter_dir, localmpd)
+            handle_segments(source.get("download_url"), source.get("format_id"), lecture_title, lecture_path, lecture_file_name, chapter_dir, localmpd.replace("#", ""))
         else:
             print(f"      > Lecture '%s' is missing media links" % lecture_title)
             print(f"Lecture source count: {len(lecture_sources)}")
