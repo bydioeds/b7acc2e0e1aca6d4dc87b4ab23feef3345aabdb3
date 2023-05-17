@@ -166,8 +166,8 @@ def mux_process(video_title, video_filepath, audio_filepath, output_path):
     """
     @author Jayapraveen
     """
-    codec = "hevc_nvenc" if use_nvenc else "libx265"
-    transcode = "-hwaccel cuda -hwaccel_output_format cuda" if use_nvenc else []
+    codec = "hevc_nvenc" if False else "libx265"
+    transcode = "-hwaccel cuda -hwaccel_output_format cuda" if False else []
     if os.name == "nt":
         if False: #use_h265
             command = 'ffmpeg {} -y -i "{}" -i "{}" -c:v {} -crf {} -preset {} -c:a copy -fflags +bitexact -map_metadata -1 -metadata title="{}" "{}"'.format(
@@ -644,8 +644,8 @@ def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, cours
                             tmp_file_path = lecture_path + ".tmp"
                             print("      > HLS Download success")
                             if False: #use_h265
-                                codec = "hevc_nvenc" if use_nvenc else "libx265"
-                                transcode = "-hwaccel cuda -hwaccel_output_format cuda".split(" ") if use_nvenc else []
+                                codec = "hevc_nvenc" if False else "libx265"
+                                transcode = "-hwaccel cuda -hwaccel_output_format cuda".split(" ") if False else []
                                 cmd = ["ffmpeg", *transcode, "-y", "-i", lecture_path, "-c:v", codec, "-c:a", "copy", "-f", "mp4", tmp_file_path]
                                 process = subprocess.Popen(cmd)
                                 log_subprocess_output("FFMPEG-STDOUT", process.stdout)
