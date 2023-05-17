@@ -582,8 +582,9 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
         os.remove(audio_filepath_enc)
         os.remove(video_filepath_dec)
         os.remove(audio_filepath_dec)
-    except Exception:
+    except Exception as e:
         print(f"Error: ")
+        print(e)
     finally:
         os.chdir(home_dir)
 
