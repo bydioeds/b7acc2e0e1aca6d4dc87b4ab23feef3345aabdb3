@@ -174,7 +174,7 @@ def mux_process(video_title, video_filepath, audio_filepath, output_path):
                 transcode, video_filepath, audio_filepath, codec, h265_crf, h265_preset, video_title, output_path
             )
         else:
-            command = 'ffmpeg -y -i "{}" -i "{}" -c:v copy -vtag hvc1 -c:a copy -fflags +bitexact -map_metadata -1 -metadata title="{}" "{}"'.format(
+            command = 'ffmpeg -y -i "{}" -i "{}" -c:v copy  -c:a copy -fflags +bitexact -map_metadata -1 -metadata title="{}" "{}"'.format(
                 video_filepath, audio_filepath, video_title, output_path
             )
     else:
@@ -183,10 +183,10 @@ def mux_process(video_title, video_filepath, audio_filepath, output_path):
                 transcode, video_filepath, audio_filepath, codec, h265_crf, h265_preset, video_title, output_path
             )
         else:
-            command = 'nice -n 7 ffmpeg -y -i "{}" -i "{}" -c:v copy -vtag hvc1 -c:a copy -fflags +bitexact -map_metadata -1 -metadata title="{}" "{}"'.format(
+            command = 'nice -n 7 ffmpeg -y -i "{}" -i "{}" -c:v copy -c:a copy -fflags +bitexact -map_metadata -1 -metadata title="{}" "{}"'.format(
                 video_filepath, audio_filepath, video_title, output_path
             )
-
+    print(command)
     process = subprocess.Popen(command, shell=True)
     log_subprocess_output("FFMPEG-STDOUT", process.stdout)
     log_subprocess_output("FFMPEG-STDERR", process.stderr)
