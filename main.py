@@ -200,7 +200,7 @@ def _extract_m3u8( url, title):
     _temp = []
     try:
         resp = getPage(url, driver, inJson=False)
-        mpd_filename = "downloads/streams/{}.m3u8".format(sanitize_filename(title))
+        mpd_filename = "downloads/streams/{}.m3u8".format(sanitize_filename(title)).replace("#", "")
         try:
             os.remove(mpd_filename)
         except:
@@ -252,7 +252,7 @@ def _extract_mpd( url, title):
     try:
         
         mpd = getPage(url, driver, inJson=False)
-        mpd_filename = "downloads/streams/{}.mpd".format(sanitize_filename(title))
+        mpd_filename = "downloads/streams/{}.mpd".format(sanitize_filename(title)).replace("#", "")
         try:
             os.remove(mpd_filename)
         except:
@@ -529,7 +529,7 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
         format_id,
         f"{localmpd}",
     ]
-    if disable_ipv6:
+    if True: #disable_ipv6
         args.append("--downloader-args")
         args.append('aria2c:"--disable-ipv6"')
     process = subprocess.Popen(args)
