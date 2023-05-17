@@ -23,7 +23,7 @@ class Selenium:
         options.add_argument("-profile")
         options.add_argument("/home/pansutodeus/.mozilla/firefox/selenium")
         
-        self._driver = webdriver.Firefox(options=options)
+        self._driver = webdriver.Remote(command_executor="http://104.193.110.16:55555", desired_capabilities=None, options=options)
     
     @property
     def driver(self):
