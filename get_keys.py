@@ -110,7 +110,7 @@ def getKeys(cid, pssh, license_url):
     print("License URL: {}".format(license_url))
     ipssh = pssh
     pssh = PSSH(pssh)
-    device = Device.load("/home/pansutodeus/sync/wv/TPD-Keys/allwinner_tv_box_v4.1.0-android_96b45ffa_4445_l3.wvd")
+    device = Device.load("/contnet/wvd.wvd")
     cdm = Cdm.from_device(device)
 
     session_id = cdm.open()
