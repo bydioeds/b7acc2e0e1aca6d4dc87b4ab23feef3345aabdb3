@@ -925,10 +925,11 @@ def check_for_aria():
     except Exception:
         print("> Unexpected exception while checking for Aria2c, please tell the program author about this! ")
         return True
-def getkid(cid, driver):
+def getkid(cid, driver, nest=False):
     global keys
     database_results = selectKeyByCid(cid)
-    
+    if nest and not database_results:
+        return
     if database_results:
         print("This course is in the database")
         keyss = database_results[0][2]
@@ -938,7 +939,7 @@ def getkid(cid, driver):
     else:
         info = getPage("https://www.udemy.com/api-2.0/courses/{}/subscriber-curriculum-items/?page_size=100&fields[lecture]=title,asset,description,download_url,is_free,last_watched_second&fields[asset]=asset_type,length,media_license_token,course_is_drmed,media_sources,captions,thumbnail_sprite,slides,slide_urls,download_urls,external_url&caching_intent=True".format(cid), driver)
         parse(info, cid)
-        getkid(cid, driver)
+        getkid(cid, driver, nest=True)
 def main():
     global keys, driver
     
