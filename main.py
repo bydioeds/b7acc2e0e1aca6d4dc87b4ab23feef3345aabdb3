@@ -938,7 +938,7 @@ def getkid(cid, driver):
     else:
         info = getPage("https://www.udemy.com/api-2.0/courses/{}/subscriber-curriculum-items/?page_size=100&fields[lecture]=title,asset,description,download_url,is_free,last_watched_second&fields[asset]=asset_type,length,media_license_token,course_is_drmed,media_sources,captions,thumbnail_sprite,slides,slide_urls,download_urls,external_url&caching_intent=True".format(cid), driver)
         parse(info, cid)
-        getkid(cid)
+        getkid(cid, driver)
 def main():
     global keys, driver
     
