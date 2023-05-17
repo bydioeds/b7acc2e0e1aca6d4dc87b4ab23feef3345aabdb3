@@ -426,6 +426,7 @@ def _extract_audio(asset, lecture_counter):
         return _temp
 def handle_segments(url, format_id, video_title, output_path, lecture_file_name, chapter_dir, localmpd):
     global home_dir
+    print(url)
     os.chdir(os.path.join(chapter_dir))
     file_name = lecture_file_name.replace("%", "")
     
