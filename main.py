@@ -582,7 +582,7 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
     except Exception:
         print(f"Error: ")
     finally:
-        os.chdir(HOME_DIR)
+        os.chdir(os.getcwd())
 
 def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, course_name):
     lecture_title = lecture.get("lecture_title")
