@@ -129,10 +129,10 @@ def getKeys(cid, pssh, license_url):
     print(fkeys)
     cdm.close(session_id)
 
-def getMPD(url):
+def getMPD(url, driver):
    
     #mpd = requests.get(url, headers=common_headers)
-    mpd = getPage(url, inJson=False)
+    mpd = getPage(url, driver, inJson=False)
 
     xml = xmltodict.parse(mpd)
 
@@ -183,12 +183,12 @@ def getMPD(url):
 
     return video_pssh
             
-def getLecture(cid, id):
+def getLecture(cid, id, driver):
     # response = requests.get("https://www.udemy.com/api-2.0/users/me/subscribed-courses/{}/lectures/{}/?fields[lecture]=asset,description,download_url,is_free,last_watched_second&fields[asset]=asset_type,length,media_license_token,course_is_drmed,media_sources,captions,thumbnail_sprite,slides,slide_urls,download_urls,external_url".format(cid, id),
     #     cookies=cookies,
     #     headers=headers
     # )
-    res = getPage("https://www.udemy.com/api-2.0/users/me/subscribed-courses/{}/lectures/{}/?fields[lecture]=asset,description,download_url,is_free,last_watched_second&fields[asset]=asset_type,length,media_license_token,course_is_drmed,media_sources,captions,thumbnail_sprite,slides,slide_urls,download_urls,external_url".format(cid, id))
+    res = getPage("https://www.udemy.com/api-2.0/users/me/subscribed-courses/{}/lectures/{}/?fields[lecture]=asset,description,download_url,is_free,last_watched_second&fields[asset]=asset_type,length,media_license_token,course_is_drmed,media_sources,captions,thumbnail_sprite,slides,slide_urls,download_urls,external_url".format(cid, id), driver)
     if res["asset"]["media_license_token"]:
         return "https://www.udemy.com/api-2.0/media-license-server/validate-auth-token?drm_type=widevine&auth_token=" + res["asset"]["media_license_token"]
 
@@ -214,7 +214,7 @@ def getPage(url, driver, inJson=True):
     else:
         return info
 
-def parse(json_res, cid):
+def parse(json_res, cid, driver):
     for res in json_res["results"]:
         if res["_class"] == "lecture":
             #print(res["title"])
@@ -225,7 +225,7 @@ def parse(json_res, cid):
             for media in res["asset"]["media_sources"]:
                 if media["type"] == "application/dash+xml":
                     #print(media["src"])
-                    pssh = getMPD(media["src"])
+                    pssh = getMPD(media["src"], driver)
                     key_res = selectKey(pssh)
                     if key_res:
                         print("this pssh is already on the database")
@@ -237,6 +237,6 @@ def parse(json_res, cid):
                         print('key_id={}:key={}'.format(kid,key))
 
                     else:
-                        getKeys( cid, pssh , getLecture(cid, res["id"]))
+                        getKeys( cid, pssh , getLecture(cid, res["id"], driver))
 
                     return
