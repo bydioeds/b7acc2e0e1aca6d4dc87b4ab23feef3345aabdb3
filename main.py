@@ -1148,7 +1148,7 @@ def main():
         
         _print_course_info(udemy)
         parse_new(udemy)
-        driver.quit()
+        
         
 
 if __name__ == "__main__":
