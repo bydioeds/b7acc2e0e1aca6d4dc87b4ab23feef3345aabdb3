@@ -110,7 +110,7 @@ def getKeys(cid, pssh, license_url):
     print("License URL: {}".format(license_url))
     ipssh = pssh
     pssh = PSSH(pssh)
-    device = Device.load("/contnet/wvd.wvd")
+    device = Device.load("/content/wvd.wvd")
     cdm = Cdm.from_device(device)
 
     session_id = cdm.open()
