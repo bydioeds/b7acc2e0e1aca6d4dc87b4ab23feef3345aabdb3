@@ -545,6 +545,7 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
 
     if ret_code != 0:
         print("Return code from the downloader was non-0 (error), skipping!")
+        exit()
         return
 
     try:
@@ -552,6 +553,7 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
         print("KID for video file is: " + video_kid)
     except Exception:
         print(f"Error extracting video kid")
+        exit()
         return
 
     try:
@@ -559,6 +561,7 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
         print("KID for audio file is: " + audio_kid)
     except Exception:
         print(f"Error extracting audio kid")
+        exit()
         return
 
     try:
@@ -566,18 +569,21 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
         ret_code = decrypt(video_kid, video_filepath_enc, video_filepath_dec)
         if ret_code != 0:
             print("> Return code from the decrypter was non-0 (error), skipping!")
+            exit()
             return
         print("> Decryption complete")
         print("> Decrypting audio, this might take a minute...")
         decrypt(audio_kid, audio_filepath_enc, audio_filepath_dec)
         if ret_code != 0:
             print("> Return code from the decrypter was non-0 (error), skipping!")
+            exit()
             return
         print("> Decryption complete")
         print("> Merging video and audio, this might take a minute...")
         mux_process(video_title, video_filepath_dec, audio_filepath_dec, output_path)
         if ret_code != 0:
             print("> Return code from ffmpeg was non-0 (error), skipping!")
+            exit()
             return
         print("> Merging complete, removing temporary files...")
         os.remove(video_filepath_enc)
@@ -587,10 +593,11 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
     except Exception as e:
         print(f"Error: ")
         print(e)
+        exit()
     finally:
         os.chdir(home_dir)
 
-def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, course_name):
+def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, course_name, chapter_title):
     lecture_title = lecture.get("lecture_title")
     is_encrypted = lecture.get("is_encrypted")
     lecture_sources = lecture.get("video_sources")
@@ -602,7 +609,7 @@ def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, cours
             if isinstance(quality, int):
                 source = min(lecture_sources, key=lambda x: abs(int(x.get("height")) - quality))
             print(f"      > Lecture '%s' has DRM, attempting to download" % lecture_title)
-            localmpd = "file:///content/udemy-dl/downloads/streams/" + course_name + " - " + lecture_title+".mpd"
+            localmpd = "file:///content/udemy-dl/downloads/streams/" + course_name + " - " + chapter_title + " - " + lecture_title+".mpd"
             handle_segments(source.get("download_url"), source.get("format_id"), lecture_title, lecture_path, lecture_file_name, chapter_dir, localmpd.replace("#", ""))
         else:
             print(f"      > Lecture '%s' is missing media links" % lecture_title)
@@ -623,7 +630,7 @@ def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, cours
                     print(url)
                     print(source_type)
                     
-                    localm3u8 = "file:///content/udemy-dl/downloads/streams/" + course_name + " - " + lecture_title+"-{}.m3u8".format(quality)
+                    localm3u8 = "file:///content/udemy-dl/downloads/streams/" + course_name + " - "  + chapter_title + " - " + lecture_title+"-{}.m3u8".format(quality)
 
                     print(localm3u8)
                     if source_type == "hls":
@@ -773,7 +780,7 @@ def parse_new(_udemy):
                         except Exception:
                             print("    > Failed to write html file")
                 else:
-                    process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, course_name)
+                    process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, course_name, chapter_title)
 
             # download subtitles for this lecture
             subtitles = lecture.get("subtitles")
