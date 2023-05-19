@@ -602,7 +602,7 @@ def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, cours
             if isinstance(quality, int):
                 source = min(lecture_sources, key=lambda x: abs(int(x.get("height")) - quality))
             print(f"      > Lecture '%s' has DRM, attempting to download" % lecture_title)
-            localmpd = "file://" + os.getcwd() + "/downloads/streams/" + course_name + " - " + lecture_title+".mpd"
+            localmpd = "file:///content/udemy-dl/downloads/streams/" + course_name + " - " + lecture_title+".mpd"
             handle_segments(source.get("download_url"), source.get("format_id"), lecture_title, lecture_path, lecture_file_name, chapter_dir, localmpd.replace("#", ""))
         else:
             print(f"      > Lecture '%s' is missing media links" % lecture_title)
@@ -623,7 +623,7 @@ def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, cours
                     print(url)
                     print(source_type)
                     
-                    localm3u8 = "file://" + os.getcwd() + "/downloads/streams/" + course_name + " - " + lecture_title+"-{}.m3u8".format(quality)
+                    localm3u8 = "file:///content/udemy-dl/downloads/streams/" + course_name + " - " + lecture_title+"-{}.m3u8".format(quality)
 
                     print(localm3u8)
                     if source_type == "hls":
