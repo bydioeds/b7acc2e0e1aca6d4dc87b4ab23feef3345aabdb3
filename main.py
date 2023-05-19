@@ -518,6 +518,7 @@ def handle_segments(url, format_id, video_title, output_path, lecture_file_name,
     print("> Downloading Lecture Tracks...")
     args = [
         "yt-dlp",
+        "-R", "30",
         "--enable-file-urls",
         "--force-generic-extractor",
         "--allow-unplayable-formats",
@@ -636,6 +637,7 @@ def process_lecture(lecture, lecture_path, lecture_file_name, chapter_dir, cours
                     if source_type == "hls":
                         temp_filepath = lecture_path.replace(".mp4", ".%(ext)s")
                         cmd = [ "yt-dlp", 
+                                 "-R", "30",
                                 "--force-generic-extractor", 
                                 "--concurrent-fragments", "10", 
                                 "--downloader", "aria2c", 
