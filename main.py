@@ -264,7 +264,7 @@ def _extract_mpd( url, title):
         with open(mpd_filename, "w") as f:
             f.write(mpd)
         ytdl = yt_dlp.YoutubeDL({"quiet": True, "no_warnings": True, "allow_unplayable_formats": True, "enable_file_urls": True})
-        results = ytdl.extract_info("file://" + os.getcwd() + "/" + mpd_filename, download=False, force_generic_extractor=True)
+        results = ytdl.extract_info("file:///content/udemy-dl/" + mpd_filename, download=False, force_generic_extractor=True)
         seen = set()
         formats = results.get("formats")
 
