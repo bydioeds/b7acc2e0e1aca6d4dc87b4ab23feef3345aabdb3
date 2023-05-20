@@ -1042,7 +1042,7 @@ def main():
                                 sources = data.get("Video")
                                 tracks = asset.get("captions")
                                 # duration = asset.get("time_estimation")
-                                sources = _extract_sources(sources, skip_hls, course_title + " - " + lecture_title)
+                                sources = _extract_sources(sources, skip_hls, course_title + " - " + chapter_title +  " - "+ lecture_title)
                                 subtitles = _extract_subtitles(tracks)
                                 sources_count = len(sources)
                                 subtitle_count = len(subtitles)
@@ -1084,7 +1084,7 @@ def main():
                             # encrypted
                             data = asset.get("media_sources")
                             if data and isinstance(data, list):
-                                sources = _extract_media_sources(data, course_title + " - " + lecture_title)
+                                sources = _extract_media_sources(data, course_title + " - " + chapter_title + " - "+ lecture_title)
                                 tracks = asset.get("captions")
                                 # duration = asset.get("time_estimation")
                                 subtitles = _extract_subtitles(tracks)
